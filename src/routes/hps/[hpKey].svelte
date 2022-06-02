@@ -1,5 +1,5 @@
 <script context="module">
-	const baseUrl = `https://prod-api.rosa.be/api/web-pages/hps`;
+	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
 		const { hpKey } = params;
@@ -11,6 +11,7 @@
 </script>
 
 <script lang="ts">
+
 	import type { HpWebPageDto } from '../../types/hp-web-page.dto';
 
 	import Header from '../../components/header.svelte';
@@ -19,6 +20,12 @@
 
 	export let hpData: HpWebPageDto;
 </script>
+
+
+<svelte:head>
+	<title>{hpData.key}</title>
+	<meta name="description" content="This is the booking page of {hpData.firstName}" />
+</svelte:head>
 
 <Header
 	profile={hpData.profilePictureUrl}

@@ -13,7 +13,7 @@
 
 	const searchHps = async (hpName: string) => {
 		if (hpName) {
-			const url = `https://prod-api.rosa.be/api/hps/new-search?q=${hpName}`;
+			const url = `https://staging-api.rosa.be/api/hps/new-search?q=${hpName}`;
 			await fetch(url)
 				.then((res) => res.json())
 				.then((data) => {
