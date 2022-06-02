@@ -49,6 +49,7 @@
 	<input type="radio" group={patientType} name="scoops" value={2} />
 	No
 </label>
+{selectedMotive}
 <p>What is the reason for your visit?</p>
 <Dropdown
 	placeholder="Select you reason of visit"

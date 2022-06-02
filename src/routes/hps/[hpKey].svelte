@@ -24,6 +24,10 @@
 <svelte:head>
 	<title>{hpData.key}</title>
 	<meta name="description" content="This is the booking page of {hpData.firstName}" />
+	<meta
+		name="robots"
+		content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+	/>
 </svelte:head>
 
 <Header
