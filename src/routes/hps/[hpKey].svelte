@@ -11,7 +11,8 @@
 </script>
 
 <script lang="ts">
-	import type { HpWebPageDto } from 'src/types/hp-web-page.dto';
+
+	import type { HpWebPageDto } from '../../types/hp-web-page.dto';
 
 	import Header from '../../components/header.svelte';
 	import Messages from '../../components/messages.svelte';
@@ -20,6 +21,7 @@
 	export let hpData: HpWebPageDto;
 </script>
 
+
 <svelte:head>
 	<title>{hpData.key}</title>
 	<meta name="description" content="This is the booking page of {hpData.firstName}" />
@@ -27,7 +29,7 @@
 
 <Header
 	profile={hpData.profilePictureUrl}
-	specialty={hpData.specialty.label.en}
+	specialty={hpData.specialty?.label?.en}
 	firstName={hpData.firstName}
 	lastName={hpData.lastName}
 />
