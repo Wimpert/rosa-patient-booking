@@ -6,9 +6,7 @@
 </script>
 
 <div class="header-container">
-	<div class="avatar">
-		<img alt="HP" src={profile} />
-	</div>
+	<img class="avatar" alt="HP" src={profile} />
 	<div>
 		<p>{specialty}</p>
 		<h1>{firstName} {lastName}</h1>
