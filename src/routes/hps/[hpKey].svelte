@@ -1,4 +1,6 @@
 <script context="module">
+	export const prerender = true;
+
 	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
