@@ -22,7 +22,7 @@
 
 <Header
 	profile={hpData.profilePictureUrl}
-	specialty={hpData.specialty.label.en}
+	specialty={hpData.specialty?.label?.en}
 	firstName={hpData.firstName}
 	lastName={hpData.lastName}
 />
