@@ -5,7 +5,9 @@
 	// @ts-ignore
 	export async function load({ params }) {
 		const { hpKey } = params;
-		const hpData = await fetch(`${baseUrl}/${hpKey}`).then((res) => res.json());
+		const hpData = await fetch(`${baseUrl}/${hpKey}`, {
+			headers: { 'Accept-Encoding': 'br' }
+		}).then((res) => res.json());
 		return {
 			props: { hpData }
 		};
@@ -18,8 +20,14 @@
 	import Header from '../../components/header.svelte';
 	import Messages from '../../components/messages.svelte';
 	import Location from '../../components/location.svelte';
+	import AvailabilitesCalendar from '../../components/availabilites-calendar.svelte';
+	import { Availabilities } from '../../types/availabilities.type';
 
 	export let hpData: HpWebPageDto;
+	export let availabilities: Availabilities;
+
+	let days = 7;
+	//for (let i = 0; i < days; i++) {}
 </script>
 
 <svelte:head>
@@ -35,3 +43,5 @@
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
 <Location sites={hpData.sites} />
+
+<AvailabilitesCalendar {availabilities} />
