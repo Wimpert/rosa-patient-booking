@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { SelectValue } from '../types/select-value.type';
 	import type { Calendar, Motive, Site } from '../types/hp-web-page.dto';
-	import { addDays, startOfDay } from 'date-fns';
+	import { addDays, startOfDay, differenceInCalendarDays } from 'date-fns';
 	import Dropdown from './dropdown.svelte';
+	import type { Availabilities } from 'src/types/availabilities.type';
+	import { page } from '$app/stores';
+	import { browser } from '$app/env';
 
 	export let motives: Array<Motive> = [];
 	export let sites: Array<Site> = [];
@@ -41,13 +45,38 @@
 	let selectedMotive: string;
 	let selectedSite: string;
 	let selectedCalendar: string | null | undefined;
+	let availabilities: Availabilities;
+	const from = startOfDay(new Date());
+	const to = addDays(from, 7);
 
 	const handleMotiveChange = (e: any) => {
 		selectedMotive = e.detail;
+		if (browser) {
+			$page.url.searchParams.set('motiveId', selectedMotive);
+			goto($page.url.toString(), { replaceState: false });
+		}
 	};
 
 	const handleSiteChange = (e: any) => {
 		selectedSite = e.detail;
+		if (browser) {
+			$page.url.searchParams.set('siteId', selectedSite);
+			goto($page.url.toString(), { replaceState: false });
+		}
+	};
+
+	const mapToAvailabilities = (avalabilityRawData: any, from: Date, to: Date) => {
+		console.log(avalabilityRawData);
+		const result = new Map();
+		if (avalabilityRawData?.length > 0) {
+			const daysBetweenFromAndTo = differenceInCalendarDays(to, from);
+			for (let i = 0; i < daysBetweenFromAndTo; i++) {
+				const day = addDays(from, i);
+				result.set(day, []);
+			}
+			return result;
+		}
+		return result;
 	};
 
 	$: motiveSelectValues = motives.map((motive) => ({
@@ -65,29 +94,42 @@
 		: null;
 
 	$: if (selectedMotive && selectedCalendar) {
-		const from = startOfDay(new Date());
-		const to = addDays(from, 7);
-
 		const url = buildUrl(from, to, selectedMotive, patientType, selectedCalendar);
 		fetch(url)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
 				avalabilityRawData = data;
 			});
 	} else {
 		avalabilityRawData = [];
 	}
+	$: availabilities = mapToAvailabilities(avalabilityRawData, from, to);
+
+	$: if (browser) {
+		$page.url.searchParams.set('patientType', `${patientType}`);
+		goto($page.url.toString(), { replaceState: false });
+	}
+
+	$: $page.url.searchParams.get('motiveId') !== null
+		? (selectedMotive = $page.url.searchParams.get('motiveId') as string)
+		: null;
+
+	$: $page.url.searchParams.get('siteId') !== null
+		? (selectedSite = $page.url.searchParams.get('siteId') as string)
+		: null;
+	$: $page.url.searchParams.get('patientType') !== null
+		? (patientType = Number($page.url.searchParams.get('patientType')) as 1 | 2)
+		: null;
 </script>
 
 <p>Is this your first time visit?</p>
 <label>
-	<input type="radio" group={patientType} name="scoops" value={1} />
+	<input type="radio" group={patientType} checked={patientType === 1} name="scoops" value={1} />
 	Yes
 </label>
 
 <label>
-	<input type="radio" group={patientType} name="scoops" value={2} />
+	<input type="radio" group={patientType} checked={patientType === 2} name="scoops" value={2} />
 	No
 </label>
 <p>What is the reason for your visit?</p>
@@ -95,6 +137,7 @@
 	placeholder="Select you reason of visit"
 	on:change={handleMotiveChange}
 	selectValues={motiveSelectValues}
+	selected={selectedMotive}
 />
 
 <p>Where do you want your visit?</p>
@@ -102,4 +145,5 @@
 	placeholder="Select your place of visit"
 	on:change={handleSiteChange}
 	selectValues={siteSelectValues}
+	selected={selectedSite}
 />
