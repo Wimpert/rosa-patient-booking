@@ -1,4 +1,6 @@
 <script context="module">
+	export const prerender = true;
+
 	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
@@ -24,6 +26,10 @@
 <svelte:head>
 	<title>{hpData.key}</title>
 	<meta name="description" content="This is the booking page of {hpData.firstName}" />
+	<meta
+		name="robots"
+		content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+	/>
 </svelte:head>
 
 <Header
@@ -34,4 +40,4 @@
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
 <Location sites={hpData.sites} />
-<BookingWidget motives={hpData?.motives} sites={hpData?.sites} />
+<BookingWidget motives={hpData?.motives} sites={hpData?.sites} calendars={hpData.calendars} />
