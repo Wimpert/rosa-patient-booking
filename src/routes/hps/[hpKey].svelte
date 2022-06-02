@@ -11,15 +11,20 @@
 </script>
 
 <script lang="ts">
-    import type { HpWebPageDto } from 'src/types/hp-web-page.dto';
+	import type { HpWebPageDto } from '../../types/hp-web-page.dto';
 
 	import Header from '../../components/header.svelte';
-    import Messages from '../../components/messages.svelte';
-    import Location from '../../components/location.svelte';
+	import Messages from '../../components/messages.svelte';
+	import Location from '../../components/location.svelte';
 
 	export let hpData: HpWebPageDto;
 </script>
 
-<Header profile={hpData.profilePictureUrl} specialty={hpData.specialty.label.en} firstName={hpData.firstName} lastName={hpData.lastName}/>
+<Header
+	profile={hpData.profilePictureUrl}
+	specialty={hpData.specialty.label.en}
+	firstName={hpData.firstName}
+	lastName={hpData.lastName}
+/>
 <Messages temporaryMessage={hpData.temporaryMessage} />
-<Location sites={hpData.sites}/>
+<Location sites={hpData.sites} />
