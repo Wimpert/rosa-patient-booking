@@ -34,3 +34,9 @@ export type Site = {
 	id: string;
 	name: string;
 };
+
+export type Calendar = {
+	id: string;
+	ownerId: string;
+	siteId: string;
+};

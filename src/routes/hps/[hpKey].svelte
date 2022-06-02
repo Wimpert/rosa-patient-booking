@@ -38,4 +38,4 @@
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
 <Location sites={hpData.sites} />
-<BookingWidget motives={hpData?.motives} sites={hpData?.sites} />
+<BookingWidget motives={hpData?.motives} sites={hpData?.sites} calendars={hpData.calendars} />
