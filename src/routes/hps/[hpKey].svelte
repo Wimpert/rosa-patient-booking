@@ -1,5 +1,5 @@
 <script context="module">
-	const baseUrl = `https://prod-api.rosa.be/api/web-pages/hps`;
+	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
 		const { hpKey } = params;
