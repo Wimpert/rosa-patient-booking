@@ -1,4 +1,6 @@
 <script context="module">
+	export const router = false;
+	export const hydrate = false;
 	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
@@ -11,7 +13,6 @@
 </script>
 
 <script lang="ts">
-
 	import type { HpWebPageDto } from '../../types/hp-web-page.dto';
 
 	import Header from '../../components/header.svelte';
@@ -20,7 +21,6 @@
 
 	export let hpData: HpWebPageDto;
 </script>
-
 
 <svelte:head>
 	<title>{hpData.key}</title>
