@@ -23,6 +23,7 @@
 <svelte:head>
 	<link rel="stylesheet" href="/tutorial/dark-theme.css" />
 	<title>{hpData.key}</title>
+	<meta name="description" content="This is the booking page of {hpData.firstName}" />
 </svelte:head>
 
 <Header
