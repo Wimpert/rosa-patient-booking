@@ -1,6 +1,4 @@
 <script context="module">
-	export const router = false;
-	export const hydrate = false;
 	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
@@ -18,6 +16,7 @@
 	import Header from '../../components/header.svelte';
 	import Messages from '../../components/messages.svelte';
 	import Location from '../../components/location.svelte';
+	import BookingWidget from '../../components/booking-widget.svelte';
 
 	export let hpData: HpWebPageDto;
 </script>
@@ -35,3 +34,4 @@
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
 <Location sites={hpData.sites} />
+<BookingWidget motives={hpData?.motives} sites={hpData?.sites} />
