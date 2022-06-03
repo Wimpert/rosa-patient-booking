@@ -1,0 +1,10 @@
+.availability-col__day {
+	color: green;
+}
+.availability-col__time {
+	color: red;
+}
+
+html {
+	background-color: yellow;
+}

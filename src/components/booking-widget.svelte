@@ -4,7 +4,6 @@
 	import type { Calendar, Motive, Site } from '../types/hp-web-page.dto';
 	import { addDays, startOfDay, differenceInCalendarDays, isBefore, addMinutes } from 'date-fns';
 	import Dropdown from './dropdown.svelte';
-	import type { Availabilities } from '../types/availabilities.type';
 	import { availabilitiesStore } from '../stores/availabilities.store';
 	import { page } from '$app/stores';
 	import { browser } from '$app/env';
@@ -12,6 +11,8 @@
 	export let motives: Array<Motive> = [];
 	export let sites: Array<Site> = [];
 	export let calendars: Array<Calendar> = [];
+
+	type Direction = 'next' | 'previous';
 
 	const url = 'https://staging-api.rosa.be/api/availabilities?';
 	//from=2022-06-12T22:00:00.000Z
@@ -48,8 +49,8 @@
 	let selectedCalendar: string | null | undefined;
 	let motiveDuration: number | undefined;
 
-	const from = startOfDay(new Date());
-	const to = addDays(from, 7);
+	let from = startOfDay(new Date());
+	let to = addDays(from, 7);
 
 	const handleMotiveChange = (e: any) => {
 		selectedMotive = e.detail;
@@ -67,40 +68,33 @@
 		}
 	};
 
-	const mapToAvailabilities = (
-		avalabilityRawData: any,
-		from: Date,
-		to: Date,
-		motiveDuration: number | undefined
-	) => {
-		const result = new Map();
-		if (avalabilityRawData?.length > 0 && motiveDuration) {
-			const daysBetweenFromAndTo = differenceInCalendarDays(to, from);
-			for (let i = 0; i < daysBetweenFromAndTo; i++) {
-				const day = addDays(from, i);
-				result.set(day.toString(), []);
-			}
+	const navigate = (direction: Direction) => {
+		const days = direction === 'next' ? 7 : -7;
+		from = addDays(from, days);
+		to = addDays(to, days);
+	};
 
+	const mapToAvailabilities = (avalabilityRawData: any, motiveDuration: number | undefined) => {
+		const result = new Map();
+
+		const daysBetweenFromAndTo = differenceInCalendarDays(to, from);
+		for (let i = 0; i < daysBetweenFromAndTo; i++) {
+			const day = addDays(from, i);
+			result.set(day.toString(), []);
+		}
+
+		if (avalabilityRawData?.length > 0 && motiveDuration) {
 			for (let j = 0; j < avalabilityRawData.length; j++) {
 				const entry = avalabilityRawData[j];
-				console.log('entry', entry);
 				const key = startOfDay(new Date(entry.startAt));
 				let timeStamp = new Date(entry.startAt);
 				let endDate = new Date(entry.endAt);
-
-				console.log(entry);
-				console.log(isBefore(timeStamp, endDate));
-
 				while (isBefore(timeStamp, endDate)) {
-					console.log(result);
-					console.log('setting', result.get(key));
-					console.log(key);
 					result.set(key.toString(), [...result.get(key.toString()), timeStamp]);
 					timeStamp = addMinutes(timeStamp, motiveDuration);
 				}
 			}
 
-			console.log(result);
 			return result;
 		}
 		return result;
@@ -131,7 +125,7 @@
 		avalabilityRawData = [];
 	}
 
-	$: availabilitiesStore.set(mapToAvailabilities(avalabilityRawData, from, to, motiveDuration));
+	$: availabilitiesStore.set(mapToAvailabilities(avalabilityRawData, motiveDuration));
 
 	$: if (browser) {
 		$page.url.searchParams.set('patientType', `${patientType}`);
@@ -177,3 +171,5 @@
 	selectValues={siteSelectValues}
 	selected={selectedSite}
 />
+<button on:click={() => navigate('previous')}>Previous</button>
+<button on:click={() => navigate('next')}>Next</button>

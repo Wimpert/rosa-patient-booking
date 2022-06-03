@@ -5,6 +5,6 @@
 	$: value = timeStamp ? format(new Date(timeStamp), formatToApply) : '-';
 </script>
 
-<div>
+<div class={$$props.class}>
 	{value}
 </div>
