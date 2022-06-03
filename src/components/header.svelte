@@ -8,7 +8,7 @@
 <div class="header-container">
 	<img alt="HP" class="avatar" src={profile} />
 	<div>
-		<p>{specialty}</p>
+		{#if specialty} <p>{specialty}</p> {/if}
 		<h1>{firstName} {lastName}</h1>
 		<button>Contact</button>
 		<button>Location</button>
@@ -24,7 +24,8 @@
 		float: left;
 		margin-right: 8px;
 		margin-bottom: 16px;
-		width: 80;
-		height: 80;
+		width: 80px;
+		height: 80px;
+		border-radius: 100%;
 	}
 </style>

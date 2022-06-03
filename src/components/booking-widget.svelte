@@ -4,7 +4,7 @@
 	import type { Calendar, Motive, Site } from '../types/hp-web-page.dto';
 	import { addDays, startOfDay, differenceInCalendarDays } from 'date-fns';
 	import Dropdown from './dropdown.svelte';
-	import type { Availabilities } from 'src/types/availabilities.type';
+	import type { Availabilities } from '../types/availabilities.type';
 	import { page } from '$app/stores';
 	import { browser } from '$app/env';
 

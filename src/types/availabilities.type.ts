@@ -1,1 +1,1 @@
-export type Availabilities = Map<Date, Date>;
+export type Availabilities = Map<Date, Array<Date>>;
