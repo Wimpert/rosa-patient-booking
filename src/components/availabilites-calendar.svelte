@@ -1,30 +1,20 @@
 <script lang="ts">
-	import { Availabilities } from '../types/availabilities.type';
+	import { availabilitiesStore } from '../stores/availabilities.store';
+	import Availability from './availability-date.svelte';
 
-	//export let availabilities: Availabilities;
-
-	const availabilities = new Map<Date, Date[]>();
-	const appointments: Date[] = [];
-
-	const date = new Date();
-	const dates: Date[] = Array(7)
-		.fill(new Date(date))
-		.map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)));
-
-	dates.forEach((date) =>
-		availabilities.set(
-			date,
-			appointments.filter((appt) => appt === date)
-		)
-	);
+	$: console.log($availabilitiesStore);
 </script>
 
 <div class="calendar">
 	<table>
-		{#each [...availabilities] as [key, value]}
-			<tr><td>{key}</td></tr>
+		{#each [...$availabilitiesStore] as [key, value]}
+			<tr><td> <Availability timeStamp={new Date(key)} /></td></tr>
 			<tr>
-				<td>{value}</td>
+				{#each $availabilitiesStore.get(key) as timeStamp}
+					<td>
+						<Availability formatToApply="HH:mm" {timeStamp} />
+					</td>
+				{/each}
 			</tr>
 		{/each}
 	</table>

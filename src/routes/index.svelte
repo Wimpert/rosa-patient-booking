@@ -34,7 +34,9 @@
 <ul>
 	{#each results as result}
 		<li>
-			<a sveltekit:prefetch href="hps/{result.key}">{result.firstName} {result.lastName}</a>
+			<a sveltekit:prefetch href="hps/{result.key}"
+				>{result.firstName} {result.lastName} -- {result.key}</a
+			>
 		</li>
 	{/each}
 </ul>
