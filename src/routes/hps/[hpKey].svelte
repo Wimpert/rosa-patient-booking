@@ -21,13 +21,9 @@
 	import Messages from '../../components/messages.svelte';
 	import Location from '../../components/location.svelte';
 	import BookingWidget from '../../components/booking-widget.svelte';
-	import AvailabilitesCalendar from '../../components/availabilites-calendar.svelte';
+	import AvailabilitesCalendar from '../../components/availabilities-calendar.svelte';
 
 	export let hpData: HpWebPageDto;
-	export let availabilities: Availabilities;
-
-	let days = 7;
-	//for (let i = 0; i < days; i++) {}
 </script>
 
 <svelte:head>
