@@ -6,7 +6,7 @@
 </script>
 
 <div class="header-container">
-	<img class="avatar" alt="HP" src={profile} />
+	<img alt="HP" class="avatar" src={profile} />
 	<div>
 		{#if specialty} <p>{specialty}</p> {/if}
 		<h1>{firstName} {lastName}</h1>

@@ -22,5 +22,21 @@ export interface HpWebPageDto {
 	id: string;
 	sites: any[];
 	calendars: Array<any>;
-	motives: any[];
+	motives: Motive[];
 }
+
+export type Motive = {
+	id: string;
+	label: string;
+};
+
+export type Site = {
+	id: string;
+	name: string;
+};
+
+export type Calendar = {
+	id: string;
+	ownerId: string;
+	siteId: string;
+};

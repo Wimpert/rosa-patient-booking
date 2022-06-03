@@ -1,6 +1,6 @@
 <script context="module">
-	export const router = false;
-	export const hydrate = false;
+	export const prerender = true;
+
 	const baseUrl = `https://staging-api.rosa.be/api/web-pages/hps`;
 	// @ts-ignore
 	export async function load({ params }) {
@@ -20,8 +20,8 @@
 	import Header from '../../components/header.svelte';
 	import Messages from '../../components/messages.svelte';
 	import Location from '../../components/location.svelte';
+	import BookingWidget from '../../components/booking-widget.svelte';
 	import AvailabilitesCalendar from '../../components/availabilites-calendar.svelte';
-	import { Availabilities } from '../../types/availabilities.type';
 
 	export let hpData: HpWebPageDto;
 	export let availabilities: Availabilities;
@@ -33,6 +33,10 @@
 <svelte:head>
 	<title>{hpData.key}</title>
 	<meta name="description" content="This is the booking page of {hpData.firstName}" />
+	<meta
+		name="robots"
+		content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+	/>
 </svelte:head>
 
 <Header
@@ -43,5 +47,5 @@
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
 <Location sites={hpData.sites} />
-
-<AvailabilitesCalendar {availabilities} />
+<BookingWidget motives={hpData?.motives} sites={hpData?.sites} calendars={hpData.calendars} />
+<AvailabilitesCalendar />
