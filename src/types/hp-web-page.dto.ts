@@ -28,6 +28,7 @@ export interface HpWebPageDto {
 export type Motive = {
 	id: string;
 	label: string;
+	duration: number;
 };
 
 export type Site = {

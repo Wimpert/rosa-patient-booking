@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { SelectValue } from '../types/select-value.type';
 	import type { Calendar, Motive, Site } from '../types/hp-web-page.dto';
-	import { addDays, startOfDay, differenceInCalendarDays } from 'date-fns';
+	import { addDays, startOfDay, differenceInCalendarDays, isBefore, addMinutes } from 'date-fns';
 	import Dropdown from './dropdown.svelte';
 	import type { Availabilities } from '../types/availabilities.type';
 	import { page } from '$app/stores';
@@ -46,6 +46,8 @@
 	let selectedSite: string;
 	let selectedCalendar: string | null | undefined;
 	let availabilities: Availabilities;
+	let motiveDuration: number | undefined;
+
 	const from = startOfDay(new Date());
 	const to = addDays(from, 7);
 
@@ -65,15 +67,40 @@
 		}
 	};
 
-	const mapToAvailabilities = (avalabilityRawData: any, from: Date, to: Date) => {
-		console.log(avalabilityRawData);
+	const mapToAvailabilities = (
+		avalabilityRawData: any,
+		from: Date,
+		to: Date,
+		motiveDuration: number | undefined
+	) => {
 		const result = new Map();
-		if (avalabilityRawData?.length > 0) {
+		if (avalabilityRawData?.length > 0 && motiveDuration) {
 			const daysBetweenFromAndTo = differenceInCalendarDays(to, from);
 			for (let i = 0; i < daysBetweenFromAndTo; i++) {
 				const day = addDays(from, i);
-				result.set(day, []);
+				result.set(day.toString(), []);
 			}
+
+			for (let j = 0; j < avalabilityRawData.length; j++) {
+				const entry = avalabilityRawData[j];
+				console.log('entry', entry);
+				const key = startOfDay(new Date(entry.startAt));
+				let timeStamp = new Date(entry.startAt);
+				let endDate = new Date(entry.endAt);
+
+				console.log(entry);
+				console.log(isBefore(timeStamp, endDate));
+
+				while (isBefore(timeStamp, endDate)) {
+					console.log(result);
+					console.log('setting', result.get(key));
+					console.log(key);
+					result.set(key.toString(), [...result.get(key.toString()), timeStamp]);
+					timeStamp = addMinutes(timeStamp, motiveDuration);
+				}
+			}
+
+			console.log(result);
 			return result;
 		}
 		return result;
@@ -103,12 +130,14 @@
 	} else {
 		avalabilityRawData = [];
 	}
-	$: availabilities = mapToAvailabilities(avalabilityRawData, from, to);
+	$: availabilities = mapToAvailabilities(avalabilityRawData, from, to, motiveDuration);
 
 	$: if (browser) {
 		$page.url.searchParams.set('patientType', `${patientType}`);
 		goto($page.url.toString(), { replaceState: false });
 	}
+
+	$: motiveDuration = motives.find((motive) => motive.id === selectedMotive)?.duration;
 
 	$: $page.url.searchParams.get('motiveId') !== null
 		? (selectedMotive = $page.url.searchParams.get('motiveId') as string)
@@ -147,3 +176,5 @@
 	selectValues={siteSelectValues}
 	selected={selectedSite}
 />
+
+{availabilities}
