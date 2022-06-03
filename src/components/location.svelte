@@ -4,8 +4,12 @@
 
 <div>
 	<p>Location and buisness hours</p>
-	<div>{sites[0]?.name}</div>
+	<div class="location-container">{sites[0]?.name}</div>
 </div>
 
 <style>
+	.location-container {
+		padding: 24px 40px;
+		background: #fefcfa;
+	}
 </style>

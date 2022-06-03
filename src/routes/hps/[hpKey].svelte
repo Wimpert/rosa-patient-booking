@@ -45,3 +45,12 @@
 <Location sites={hpData.sites} />
 <BookingWidget motives={hpData?.motives} sites={hpData?.sites} calendars={hpData.calendars} />
 <AvailabilitesCalendar />
+
+<style>
+	:global(body) {
+		color: #814a58;
+		background: #fcf7f3;
+		margin: 3rem;
+		height: 100%;
+	}
+</style>
