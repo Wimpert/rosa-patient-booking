@@ -4,12 +4,19 @@
 
 	let open = false;
 
+	let noAvailabilities = false;
+
 	$: size = open
 		? Array.from($availabilitiesStore.keys()).reduce(
 				(acc, key) => Math.max(acc, $availabilitiesStore.get(key).length),
 				0
 		  )
 		: 5;
+	$: noAvailabilities =
+		Array.from($availabilitiesStore.keys()).reduce(
+			(acc, key) => Math.max(acc, $availabilitiesStore.get(key).length),
+			0
+		) === 0;
 </script>
 
 <div class="container">
@@ -19,6 +26,12 @@
 		{/each}
 	</div>
 	<button class="showMoreButton" on:click={() => (open = true)}>Show More</button>
+
+	{#if noAvailabilities}
+		<div class="no-availabilites">
+			<div>No availabilities found.</div>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -26,6 +39,18 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		position: relative;
+	}
+
+	.no-availabilites {
+		position: absolute;
+		background: rgba(255, 255, 255, 0.7);
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2rem;
 	}
 
 	.calendar {
