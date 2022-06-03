@@ -5,6 +5,7 @@
 	import { addDays, startOfDay, differenceInCalendarDays, isBefore, addMinutes } from 'date-fns';
 	import Dropdown from './dropdown.svelte';
 	import type { Availabilities } from '../types/availabilities.type';
+	import { availabilitiesStore } from '../stores/availabilities.store';
 	import { page } from '$app/stores';
 	import { browser } from '$app/env';
 
@@ -45,7 +46,6 @@
 	let selectedMotive: string;
 	let selectedSite: string;
 	let selectedCalendar: string | null | undefined;
-	let availabilities: Availabilities;
 	let motiveDuration: number | undefined;
 
 	const from = startOfDay(new Date());
@@ -130,14 +130,15 @@
 	} else {
 		avalabilityRawData = [];
 	}
-	$: availabilities = mapToAvailabilities(avalabilityRawData, from, to, motiveDuration);
+
+	$: availabilitiesStore.set(mapToAvailabilities(avalabilityRawData, from, to, motiveDuration));
 
 	$: if (browser) {
 		$page.url.searchParams.set('patientType', `${patientType}`);
 		goto($page.url.toString(), { replaceState: false });
 	}
 
-	$: motiveDuration = motives.find((motive) => motive.id === selectedMotive)?.duration;
+	$: motiveDuration = 15;
 
 	$: $page.url.searchParams.get('motiveId') !== null
 		? (selectedMotive = $page.url.searchParams.get('motiveId') as string)
@@ -176,5 +177,3 @@
 	selectValues={siteSelectValues}
 	selected={selectedSite}
 />
-
-{availabilities}
