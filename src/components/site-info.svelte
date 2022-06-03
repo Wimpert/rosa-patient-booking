@@ -11,8 +11,19 @@
 		Location : {siteIndex + 1} / {sites.length}
 		<button class="location-button" on:click={() => siteIndex++}>Next</button>
 	</div>
-	<p>Location and buisness hours</p>
 	<div>{sites[siteIndex]?.name}</div>
+	<div>{sites[siteIndex]?.address.street} {sites[siteIndex]?.address.number}</div>
+	<div>
+		{sites[siteIndex]?.address.city}
+		{sites[siteIndex]?.address.country}
+		{sites[siteIndex]?.address.zipCode}
+	</div>
+
+	<!-- <div>{sites[siteIndex]?.address.coords}</div>} -->
+	<p>Contact details</p>
+	{#each sites[siteIndex]?.contactInfos as contactInfo}
+		<div>{contactInfo.value}</div>
+	{/each}
 </div>
 
 <style>

@@ -19,9 +19,8 @@
 
 	import Header from '../../components/header.svelte';
 	import Messages from '../../components/messages.svelte';
-	import Location from '../../components/location.svelte';
 	import BookingWidget from '../../components/booking-widget.svelte';
-	import AvailabilitesCalendar from '../../components/availabilities-calendar.svelte';
+	import SiteInfo from '../../components/site-info.svelte';
 
 	export let hpData: HpWebPageDto;
 </script>
@@ -42,7 +41,8 @@
 	lastName={hpData.lastName}
 />
 <Messages temporaryMessage={hpData.temporaryMessage} />
-<Location sites={hpData.sites} />
+<h3>Location and buisness hours</h3>
+<SiteInfo sites={hpData.sites} />
 <BookingWidget motives={hpData?.motives} sites={hpData?.sites} calendars={hpData.calendars} />
 
 <style>
