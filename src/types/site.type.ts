@@ -1,4 +1,6 @@
 export type Site = {
+	id: string;
+	name: string;
 	contactInfos: ContactInfo[];
 	address: Address;
 };
