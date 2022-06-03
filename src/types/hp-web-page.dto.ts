@@ -1,3 +1,5 @@
+import type { Site } from './site.type';
+
 export interface HpWebPageDto {
 	key: string;
 	title: string;
@@ -20,7 +22,7 @@ export interface HpWebPageDto {
 	specializations?: Array<string>;
 	specialty?: any;
 	id: string;
-	sites: any[];
+	sites: Site[];
 	calendars: Array<any>;
 	motives: Motive[];
 }
@@ -29,11 +31,6 @@ export type Motive = {
 	id: string;
 	label: string;
 	duration: number;
-};
-
-export type Site = {
-	id: string;
-	name: string;
 };
 
 export type Calendar = {
