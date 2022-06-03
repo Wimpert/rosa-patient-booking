@@ -39,7 +39,7 @@
 		padding: 0;
 	}
 
-	button {
+	:global(button) {
 		background-color: transparent;
 		border: 1px solid #814a58;
 		color: #814a58;
