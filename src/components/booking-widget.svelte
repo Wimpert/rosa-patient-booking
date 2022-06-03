@@ -15,12 +15,6 @@
 	type Direction = 'next' | 'previous';
 
 	const url = 'https://staging-api.rosa.be/api/availabilities?';
-	//from=2022-06-12T22:00:00.000Z
-	//to=2022-06-11T21:59:59.999Z
-	//motive_id=611cf5461a64ce00134a3d9f
-	//is_new_patient=true
-	//calendar_ids=61d4339aa58de20020e5e611
-	//state=open'
 
 	const buildUrl = (
 		from: Date,
@@ -156,20 +150,32 @@
 	<input type="radio" group={patientType} checked={patientType === 2} name="scoops" value={2} />
 	No
 </label>
-<p>What is the reason for your visit?</p>
-<Dropdown
-	placeholder="Select you reason of visit"
-	on:change={handleMotiveChange}
-	selectValues={motiveSelectValues}
-	selected={selectedMotive}
-/>
-
-<p>Where do you want your visit?</p>
-<Dropdown
-	placeholder="Select your place of visit"
-	on:change={handleSiteChange}
-	selectValues={siteSelectValues}
-	selected={selectedSite}
-/>
+<div class="dropdowns-container">
+	<div class="dropdown-container">
+		<p>What is the reason for your visit?</p>
+		<Dropdown
+			placeholder="Select you reason of visit"
+			on:change={handleMotiveChange}
+			selectValues={motiveSelectValues}
+			selected={selectedMotive}
+		/>
+	</div>
+	<div class="dropdown-container">
+		<p>Where do you want your visit?</p>
+		<Dropdown
+			placeholder="Select your place of visit"
+			on:change={handleSiteChange}
+			selectValues={siteSelectValues}
+			selected={selectedSite}
+		/>
+	</div>
+</div>
 <button on:click={() => navigate('previous')}>Previous</button>
 <button on:click={() => navigate('next')}>Next</button>
+
+<style>
+	.dropdowns-container {
+		display: flex;
+		flex-direction: column;
+	}
+</style>

@@ -36,7 +36,15 @@
 		<li>
 			<a sveltekit:prefetch href="hps/{result.key}"
 				>{result.firstName} {result.lastName} -- {result.key}</a
-			>
+			>s
 		</li>
 	{/each}
 </ul>
+
+<style>
+	body {
+		color: #814a58;
+		background: #fcf7f3;
+		height: 100%;
+	}
+</style>
