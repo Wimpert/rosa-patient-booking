@@ -32,3 +32,9 @@
 		<option value={selectValue.id}>{selectValue.label}</option>
 	{/each}
 </select>
+
+<style>
+	.select {
+		padding: 0.5rem;
+	}
+</style>
